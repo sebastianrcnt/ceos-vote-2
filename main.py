@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify, render_template, Response
 from services import candidates, users
 from functools import wraps
+from flask_cors import CORS, cross_origin
 import jwt
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False # 한글 지원
 app.config['JWT_SECRET_KEY'] = "ceos2020"
+CORS(app, resources={r'*': {'origins', '*'}})
 
 def login_required(f):
     @wraps(f)
