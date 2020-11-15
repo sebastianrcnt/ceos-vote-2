@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css">
+    <title>CEOS-VOTE</title>
+</head>
+
+<body>
+    <h1>세오스 인기투표</h1>
+    <h2>세오스 인기투표 현황</h2>
+    <table class="pure-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Vote Count</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidate in candidate_list %}
+            <tr>
+                <td>{{candidate['id']}}</td>
+                <td>{{candidate['name']}}</td>
+                <td>{{candidate['voteCount']}}</td>
+                <td>
+                    <button class="pure-button" onclick="vote('{{ candidate['id'] }}')">Vote</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Actions</h2>
+    <button class="pure-button" onclick="reset_candidates()">Clear</button>
+    <script>
+        function vote(id) {
+            fetch(`/vote?id=${id}`).then(() => {
+                window.location.reload()
+            }).catch((res) => {
+                alert(res)
+                window.location.reload()
+            })
+        }
+
+        function reset_candidates() {
+            fetch(`/reset`).then(() => {
+                window.location.reload()
+            }).catch(() => {
+                alert('error')
+            })
+        }
+    </script>
+
+</body>
+
+</html>
