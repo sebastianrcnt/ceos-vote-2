@@ -7,7 +7,7 @@ import jwt
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False # 한글 지원
 app.config['JWT_SECRET_KEY'] = "ceos2020"
-CORS(app, resources={r'*': {'origins', '*'}})
+CORS(app, resources={r'*': {'origins': '*'}})
 
 def login_required(f):
     @wraps(f)
