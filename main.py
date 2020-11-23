@@ -45,7 +45,6 @@ def vote_to():
         return f"Candidate does not exist", 404
 
 @app.route("/reset")
-@login_required
 def reset():
     candidates.reset_votes()
     return "Success", 200
@@ -56,6 +55,10 @@ def signup():
     email = request.form.get("email")
     password = request.form.get("password")
     name = request.form.get("name")
+
+    if not (email and password and name):
+        return "Bad Request", 400
+
     user = users.get_user_by_email(email)
     if user:
         return f"User with email {email} already exists", 409 # conflict
@@ -66,6 +69,7 @@ def signup():
 def login():
     email = request.form.get("email")
     password = request.form.get("password")
+
     if not (email and password):
         return "Bad Request", 400
     if users.verify_user(email, password):

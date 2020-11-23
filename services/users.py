@@ -5,6 +5,7 @@ def create_user(email, password, name):
     cur = conn.cursor()
     cur.execute("INSERT INTO USER VALUES (?, ?, ?)", (email, password, name))
     conn.commit()
+    conn.close()
 
 def verify_user(email, password):
     conn = connect()
@@ -18,7 +19,6 @@ def verify_user(email, password):
 def get_user_by_email(email):
     conn = connect()
     cur = conn.cursor()
-    print(email)
     cur.execute("SELECT * FROM USER WHERE email=?", (email,))
     user = cur.fetchone()
     return user
