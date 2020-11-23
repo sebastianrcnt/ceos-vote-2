@@ -3,6 +3,8 @@ from services import candidates, users
 from functools import wraps
 from flask_cors import CORS, cross_origin
 import jwt
+import logging
+import time
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False # 한글 지원
@@ -81,4 +83,10 @@ def home():
     # candidate_list.sort(key=lambda candidate: candidate['voteCount'])
     return render_template("index.html", candidate_list=candidate_list)
 
-app.run(port=8080, host="0.0.0.0")
+logger = logging.getLogger("werkzeug")
+handler = logging.FileHandler(time.strftime("log/%Y_%m_%d_access.log"))
+logger.addHandler(handler)
+# app.logger.addHandler(handler)
+
+if __name__ == "__main__":
+    app.run(port=8080, host="0.0.0.0")
